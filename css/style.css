@@ -1,0 +1,57 @@
+body {
+	width: 256px;
+	background-color: #fff;
+	font-family: "Outfit", sans-serif;
+}
+
+.list-items {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.list-items li {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px;
+	font-size: 14px;
+	/* font-weight: 500; */
+}
+
+.list-items li span:hover,
+i:hover {
+	cursor: pointer;
+}
+i {
+	padding-left: 4px;
+}
+.checked {
+	text-decoration: line-through;
+	opacity: 0.4;
+}
+
+.new-item {
+	display: flex;
+	justify-content: space-between;
+}
+
+.new-item button {
+	background-color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.new-item input::placeholder {
+	opacity: 0.6;
+}
+
+.new-item input {
+	border: none;
+	outline: none;
+	width: 100%;
+	padding: 8px;
+}
+
+.empty-input::placeholder {
+	color: red;
+}
