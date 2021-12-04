@@ -20,15 +20,11 @@ document.querySelector(".new-item button").addEventListener("click", () => {
 	if (itemName != "" && itemName != " ") {
 		let items = JSON.parse(localStorage.getItem("todo-items"));
 		if (items === "" || items === null) {
-			localStorage.setItem(
-				"todo-items",
-				`[{ todo: ${itemName}, status: 0 }]`
-			);
-			items = JSON.parse(localStorage.getItem("todo-items"));
+			saveItems([{ todo: itemName, status: 0 }]);
 		} else {
 			items.push({ todo: itemName, status: 0 });
+			saveItems(items);
 		}
-		saveItems(items);
 		item.value = "";
 		fetchItems();
 	} else {
@@ -43,13 +39,15 @@ const fetchItems = () => {
 
 	try {
 		let items = JSON.parse(localStorage.getItem("todo-items"));
-		for (let i = 0; i < items.length; i++) {
-			let status = "";
-			if (items[i].status == 1) status = "checked";
+		if (items !== null) {
+			for (let i = 0; i < items.length; i++) {
+				let status = "";
+				if (items[i].status == 1) status = "checked";
 
-			listItems.innerHTML += `<li data-itemindex="${i}"> <span class="todo ${status}">${items[i].todo}</span><span class="icons"><i class="fas fa-edit edit"></i> <i class="fas fa-trash delete"></i></span></li>`;
+				listItems.innerHTML += `<li data-itemindex="${i}"> <span class="todo ${status}">${items[i].todo}</span><span class="icons"><i class="fas fa-edit edit"></i> <i class="fas fa-trash delete"></i></span></li>`;
+			}
+			addListeners(items.length);
 		}
-		addListeners(items.length);
 	} catch (error) {
 		console.log(error);
 	}
