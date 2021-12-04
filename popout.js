@@ -19,7 +19,15 @@ document.querySelector(".new-item button").addEventListener("click", () => {
 	let itemName = item.value.trim();
 	if (itemName != "" && itemName != " ") {
 		let items = JSON.parse(localStorage.getItem("todo-items"));
-		items.push({ todo: itemName, status: 0 });
+		if (items === "" || items === null) {
+			localStorage.setItem(
+				"todo-items",
+				`[{ todo: ${itemName}, status: 0 }]`
+			);
+			items = JSON.parse(localStorage.getItem("todo-items"));
+		} else {
+			items.push({ todo: itemName, status: 0 });
+		}
 		saveItems(items);
 		item.value = "";
 		fetchItems();
