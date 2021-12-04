@@ -52,6 +52,12 @@ i {
 	padding: 8px;
 }
 
+.list-items li input {
+	padding: 2px;
+	border: none;
+	/* outline: none; */
+}
+
 .empty-input::placeholder {
 	color: red;
 }

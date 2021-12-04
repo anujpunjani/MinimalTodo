@@ -45,9 +45,9 @@ const fetchItems = () => {
 		let items = JSON.parse(localStorage.getItem("todo-items"));
 		for (let i = 0; i < items.length; i++) {
 			let status = "";
-			if (items[i].status == 1) status = 'class="checked"';
+			if (items[i].status == 1) status = "checked";
 
-			listItems.innerHTML += `<li data-itemindex="${i}"> <span ${status}>${items[i].todo}</span><span> <i class="fas fa-trash delete"></i></span></li>`;
+			listItems.innerHTML += `<li data-itemindex="${i}"> <span class="todo ${status}">${items[i].todo}</span><span class="icons"><i class="fas fa-edit edit"></i> <i class="fas fa-trash delete"></i></span></li>`;
 		}
 		addListeners(items.length);
 	} catch (error) {
@@ -65,6 +65,10 @@ const addListeners = (lenght) => {
 			'ul.list-items li[data-itemindex="' + i + '"] .delete'
 		);
 
+		let itemEdit = document.querySelector(
+			'ul.list-items li[data-itemindex="' + i + '"] .edit'
+		);
+
 		itemTodo.addEventListener("click", () => {
 			let items = JSON.parse(localStorage.getItem("todo-items"));
 			itemTodo.classList.toggle("checked");
@@ -75,10 +79,38 @@ const addListeners = (lenght) => {
 
 		itemDelete.addEventListener("click", () => {
 			let items = JSON.parse(localStorage.getItem("todo-items"));
-			console.log(items);
 			items.splice(i, 1);
 			saveItems(items);
 			fetchItems();
+		});
+
+		itemEdit.addEventListener("click", () => {
+			let items = JSON.parse(localStorage.getItem("todo-items"));
+			let element = document.querySelector(
+				'ul.list-items li[data-itemindex="' + i + '"] .todo'
+			);
+			// let element = itemEdit.parentElement.parentElement.firstChild;
+			const input = document.createElement("input");
+			input.setAttribute("value", element.innerHTML);
+			element.replaceWith(input);
+			input.selectionStart = input.selectionEnd = input.value.length;
+
+			const save = () => {
+				const previous = document.createElement(
+					element.tagName.toLowerCase()
+				);
+				previous.textContent = input.value;
+				input.replaceWith(previous);
+				items[i].todo = input.value;
+				saveItems(items);
+				fetchItems();
+			};
+
+			input.addEventListener("blur", save, { once: true });
+			input.addEventListener("keypress", (e) => {
+				if (e.key === "Enter") save();
+			});
+			input.focus();
 		});
 	}
 };
