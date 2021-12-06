@@ -98,7 +98,7 @@ const addListeners = (lenght) => {
 					element.tagName.toLowerCase()
 				);
 				previous.textContent = input.value;
-				input.replaceWith(previous);
+				// input.replaceWith(previous);
 				items[i].todo = input.value;
 				saveItems(items);
 				fetchItems();
