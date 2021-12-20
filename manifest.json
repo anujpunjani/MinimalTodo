@@ -1,7 +1,7 @@
 {
     "name": "Minimal Todo",
     "version": "1.0.0",
-    "description": "Minimal Todo for your Minimal List",
+    "description": "Minimal Todo for your Daily List",
     "manifest_version": 2,
     "browser_action": {
         "default_title": "Minimal Todo",

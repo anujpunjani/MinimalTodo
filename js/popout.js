@@ -51,6 +51,9 @@ const fetchItems = () => {
 	} catch (error) {
 		console.log(error);
 	}
+
+	// const state = sortable.option("disabled");
+	sortable.option("disabled", false);
 };
 
 const addListeners = (lenght) => {
@@ -109,6 +112,9 @@ const addListeners = (lenght) => {
 				if (e.key === "Enter") save();
 			});
 			input.focus();
+
+			const state = sortable.option("disabled");
+			sortable.option("disabled", !state);
 		});
 	}
 };
@@ -117,5 +123,22 @@ const saveItems = (item) => {
 	let todo = JSON.stringify(item);
 	localStorage.setItem("todo-items", todo);
 };
+
+const listItems = document.querySelector("ul.list-items");
+const sortable = Sortable.create(listItems, {
+	animation: 200,
+	onEnd: (event) => {
+		const todoItems = document.querySelectorAll("ul.list-items .todo");
+		const todos = [];
+		todoItems.forEach((item) => {
+			let todo = {};
+			todo.todo = item.innerHTML;
+			if (item.classList.contains("checked")) todo.status = 1;
+			else todo.status = 0;
+			todos.push(todo);
+		});
+		saveItems(todos);
+	},
+});
 
 fetchItems();
